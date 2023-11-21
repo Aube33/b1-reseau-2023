@@ -51,7 +51,7 @@ Preuve que Marcel est Marcel depuis John:
 10.3.1.12 dev enp0s3 lladdr 08:00:27:46:42:2b STALE
 ```
 
-Preuve que Marcel est Marcel depuis Marcel:
+Preuve que John est John depuis Marcel:
 ```
 [antoine@localhost ~]$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
