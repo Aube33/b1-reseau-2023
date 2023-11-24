@@ -5,7 +5,7 @@
 
 Marcel:
 ```
-[antoine@localhost ~]$ ping 10.3.1.11
+[antoine@marcel ~]$ ping 10.3.1.11
 PING 10.3.1.11 (10.3.1.11) 56(84) bytes of data.
 64 bytes from 10.3.1.11: icmp_seq=1 ttl=64 time=1.18 ms
 64 bytes from 10.3.1.11: icmp_seq=2 ttl=64 time=1.03 ms
@@ -18,7 +18,7 @@ rtt min/avg/max/mdev = 1.026/1.076/1.175/0.069 ms
 
 John:
 ```
-[antoine@localhost ~]$ ping 10.3.1.12
+[antoine@john ~]$ ping 10.3.1.12
 PING 10.3.1.12 (10.3.1.12) 56(84) bytes of data.
 64 bytes from 10.3.1.12: icmp_seq=1 ttl=64 time=1.04 ms
 64 bytes from 10.3.1.12: icmp_seq=2 ttl=64 time=1.11 ms
@@ -31,7 +31,7 @@ rtt min/avg/max/mdev = 0.985/1.042/1.106/0.049 ms
 
 Marcel:
 ```
-[antoine@localhost ~]$ ip n show
+[antoine@marcel ~]$ ip n show
 10.3.1.11 dev enp0s3 lladdr 08:00:27:b6:a3:98 STALE 
 10.3.1.0 dev enp0s3 lladdr 0a:00:27:00:00:00 DELAY
 ```
@@ -39,7 +39,7 @@ MAC de John: `08:00:27:b6:a3:98`
 
 John
 ```
-[antoine@localhost ~]$ ip n show
+[antoine@john ~]$ ip n show
 10.3.1.12 dev enp0s3 lladdr 08:00:27:46:42:2b STALE 
 10.3.1.0 dev enp0s3 lladdr 0a:00:27:00:00:00 DELAY
 ```
@@ -47,13 +47,13 @@ MAC de Marcel: `08:00:27:46:42:2b`
 
 Preuve que Marcel est Marcel depuis John: 
 ```
-[antoine@localhost ~]$ ip n show 10.3.1.12
+[antoine@john ~]$ ip n show 10.3.1.12
 10.3.1.12 dev enp0s3 lladdr 08:00:27:46:42:2b STALE
 ```
 
 Preuve que Marcel est Marcel depuis Marcel:
 ```
-[antoine@localhost ~]$ ip a
+[antoine@marcel ~]$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -72,7 +72,7 @@ Preuve que Marcel est Marcel depuis Marcel:
 ### 🌞Analyse de trames
 John
 ```
-[antoine@localhost ~]$ sudo tcpdump
+[antoine@john ~]$ sudo tcpdump
 dropped privs to tcpdump
 tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
 listening on enp0s3, link-type EN10MB (Ethernet), snapshot length 262144 bytes
@@ -91,20 +91,20 @@ listening on enp0s3, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 ### 🌞Ajouter les routes statiques nécessaires pour que john et marcel puissent se ping
 Chez Marcel:
 ```
-[antoine@localhost ~]$ ip route show
+[antoine@marcel ~]$ ip route show
 10.3.1.0/24 via 10.3.2.254 dev enp0s3 proto static metric 100 
 10.3.2.0/24 dev enp0s3 proto kernel scope link src 10.3.2.12 metric 100 
 ```
 Chez John:
 ```
-[antoine@localhost ~]$ ip route show
+[antoine@john ~]$ ip route show
 10.3.1.0/24 dev enp0s3 proto kernel scope link src 10.3.1.11 metric 100 
 10.3.2.0/24 via 10.3.1.254 dev enp0s3 proto static metric 100
 ```
 
 Pings:
 ```
-[antoine@localhost ~]$ ping 10.3.1.11
+[antoine@marcel ~]$ ping 10.3.1.11
 PING 10.3.1.11 (10.3.1.11) 56(84) bytes of data.
 64 bytes from 10.3.1.11: icmp_seq=1 ttl=63 time=1.99 ms
 64 bytes from 10.3.1.11: icmp_seq=2 ttl=63 time=2.03 ms
@@ -115,7 +115,7 @@ rtt min/avg/max/mdev = 1.991/2.012/2.034/0.021 ms
 
 ```
 ```
-[antoine@localhost ~]$ ping 10.3.2.12
+[antoine@john ~]$ ping 10.3.2.12
 PING 10.3.2.12 (10.3.2.12) 56(84) bytes of data.
 64 bytes from 10.3.2.12: icmp_seq=1 ttl=63 time=1.90 ms
 64 bytes from 10.3.2.12: icmp_seq=2 ttl=63 time=2.03 ms
@@ -130,6 +130,8 @@ rtt min/avg/max/mdev = 1.901/2.020/2.132/0.094 ms
 Essayez de déduire les échanges ARP qui ont eu lieu lors du ping John vers Marcel:
 - Échange ARP entre John et le routeur
 - Échange ARP entre le routeur et Marcel
+
+Sur notre routeur:
 ```
 [antoine@localhost ~]$ sudo tcpdump not port 22
 dropped privs to tcpdump
@@ -160,6 +162,7 @@ listening on enp0s3, link-type EN10MB (Ethernet), snapshot length 262144 bytes
 
 ## 3. Accès internet
 ### 🌞Donnez un accès internet à vos machines - config routeur
+Sur notre routeur:
 ```
 [antoine@localhost ~]$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000

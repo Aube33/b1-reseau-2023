@@ -38,13 +38,14 @@ Netid      State       Recv-Q      Send-Q           Local Address:Port          
 tcp        LISTEN      0           128                 10.7.1.254:22000                0.0.0.0:*
 ```
 
+### 🌞 N'oubliez pas d'ouvrir ce nouveau port dans le firewall
+```
+aube@MakOS:~$ sudo firewall-cmd --add-port=22000/tcp --permanent
+success
+aube@MakOS:~$ sudo firewall-cmd --reload
+success
+```
 ### 🌞 Effectuer une connexion SSH sur le nouveau port
-```
-aube@MakOS:~$ ssh antoine@10.7.1.254
-ssh: connect to host 10.7.1.254 port 22: Connection refused
-```
-
-**Avec nouveau port + ajout d'une règle sur notre firewall sur le port 22000/TCP:**
 ```
 aube@MakOS:~$ ssh antoine@router -p 22000
 The authenticity of host '[router]:22000 ([10.7.1.254]:22000)' can't be established.
