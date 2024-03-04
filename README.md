@@ -12,3 +12,5 @@
 - ### [TP1](https://github.com/Aube33/b1-reseau-2023/tree/main/TPLinux/TP1)
 - ### [TP2](https://github.com/Aube33/b1-reseau-2023/tree/main/TPLinux/TP2)
 - ### [TP3](https://github.com/Aube33/b1-reseau-2023/tree/main/TPLinux/TP3)
+- ### [TP4](https://github.com/Aube33/b1-reseau-2023/tree/main/TPLinux/TP4)
+- ### [TP5](https://github.com/Aube33/b1-reseau-2023/tree/main/TPLinux/TP5)
