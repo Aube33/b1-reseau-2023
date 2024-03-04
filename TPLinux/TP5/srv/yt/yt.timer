@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer pour le service YT
+
+[Timer]
+OnCalendar=minutely
+Unit=yt.service
+
+[Install]
+WantedBy=timers.target
